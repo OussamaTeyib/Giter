@@ -69,11 +69,11 @@ int main(int argc, char *argv[])
     // commit the changes
     snprintf(cmd, 100, "git commit -m \"%s\"", argv[2]);
     system(cmd);
-    printf("Changes are commited");
+    printf("Changes are commited!\n");
 
     // push the changes
     system("git push origin main");
-    printf("Changes are pushed\n");
+    printf("Changes are pushed!\n");
 
     free(cmd);
     return 0;
