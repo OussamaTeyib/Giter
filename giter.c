@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
     printf("Changes are commited!\n");
 
     // push the changes
-    system("git push origin main");
+    if (system("git push origin main"))
     {
         printf("Failed to push the changes!\n");
         free(cmd);
