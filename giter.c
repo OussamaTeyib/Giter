@@ -76,7 +76,6 @@ int main(int argc, char *argv[])
             free(name);
             die("Failed to initialize the directory!");
         }
-        printf("Directory is initialized!\n");
 
         // set remote URL
         snprintf(cmd, MAX_CMD, "git remote add origin https://github.com/OussamaTeyib/%s.git > NUL", name); 
@@ -86,14 +85,13 @@ int main(int argc, char *argv[])
             free(name);
             die("Failed to set remote URL!");
         }
-        printf("Remote URL is set!\n");
 
         free(name);
     }
 
     // check if the dir is a git repo
     // if '-n' is passed, this check is not necessary because the dir get initialized
-    // sent stdout (if success) to Dave Null and stderr (if failure) to where stdout is send to
+    // send stdout (if success) to Dave Null and stderr (if failure) to where stdout is sent to
     if (system("git status > NUL 2>&1"))
     {
         free(cmd);
@@ -106,7 +104,6 @@ int main(int argc, char *argv[])
         free(cmd);
         die("Failed to set default name!");
     } 
-    printf("Deafult name is set!\n");
    
     // add files to staging zone     
     snprintf(cmd, MAX_CMD, "git add %s", argv[1]);
@@ -127,7 +124,8 @@ int main(int argc, char *argv[])
     printf("Changes are commited!\n");
 
     // push the changes
-    if (system("git push origin main > NUL"))
+    // push -strangely- always send its output to stderr
+    if (system("git push origin main 2 > NUL"))
     {
         free(cmd);
         die("Failed to push the changes!");
