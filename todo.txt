@@ -13,3 +13,7 @@ getenv(GITHUB_USER)?
 tell gpt it to implement it and learn from it.
 
 add git status > null to chaeck if it is a git repo
+
+Try empty input
+
+Add gh checking if -n is passed
