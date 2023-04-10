@@ -1,4 +1,6 @@
-// git commands automation
+/* Git Automation Tool      *
+ * Written by Oussama Teyib *
+ * April 2023               */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +18,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 3 && argc != 4)
         die("Usage: giter <input-files> <message> [-n]");
-  
+
     if (system("git --version > NUL"))
         die("Git is not installed on this system!");
 
@@ -41,7 +43,7 @@ int main(int argc, char *argv[])
         printf("Enter the name of the repository: ");
         fgets(name, MAX_CMD, stdin);
         name[strlen(name) - 1] = '\0';
-        if(!strlen(name))
+        if (!strlen(name))
         {
             free(cmd);
             free(name);
@@ -89,8 +91,17 @@ int main(int argc, char *argv[])
         free(name);
     }
 
+    // check if the dir is a git repo
+    // if '-n' is passed, this check is not necessary because the dir get initialized
+    // sent stdout (if success) to Dave Null and stderr (if failure) to where stdout is send to
+    if (system("git status > NUL 2>&1"))
+    {
+        free(cmd);
+        die("This directory is not a git repository!");
+    }
+
     // set default name of the branch
-    if(system("git branch -m main"))
+    if (system("git branch -m main"))
     {
         free(cmd);
         die("Failed to set default name!");
@@ -107,7 +118,7 @@ int main(int argc, char *argv[])
     printf("Files are added!\n");
 
     // commit the changes
-    snprintf(cmd, MAX_CMD, "git commit -m \"%s\"", argv[2]);
+    snprintf(cmd, MAX_CMD, "git commit -m \"%s\" > NULL", argv[2]);
     if (system(cmd))
     {
         free(cmd);
@@ -116,7 +127,7 @@ int main(int argc, char *argv[])
     printf("Changes are commited!\n");
 
     // push the changes
-    if (system("git push origin main"))
+    if (system("git push origin main > NULL"))
     {
         free(cmd);
         die("Failed to push the changes!");
