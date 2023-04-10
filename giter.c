@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
         printf("Repository is created!\n");
 
         // initialize this dir as .git repository
-        // init send its output to stderr not stdout
+        // init send its output to both stderr and stdout
         if (system("git init > NUL 2>&1"))
         {
             free(cmd);
