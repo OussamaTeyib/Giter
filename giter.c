@@ -35,6 +35,12 @@ int main(int argc, char *argv[])
         printf("Enter the name of the repository: ");
         fgets(name, MAX_CMD, stdin);
         name[strlen(name) - 1] = '\0';
+        if(!strlen(name))
+        {
+            free(cmd);
+            free(name);
+            die("Invalid input!\n");
+        }
 
         int public;
         printf("Make the repository public? (1/0): ");
