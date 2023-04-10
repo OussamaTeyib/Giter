@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
 
     // push the changes
     // push -strangely- always send its output to stderr
-    if (system("git push origin main 2 > NUL"))
+    if (system("git push origin main 2> NUL"))
     {
         free(cmd);
         die("Failed to push the changes!");
