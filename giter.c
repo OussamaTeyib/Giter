@@ -70,7 +70,8 @@ int main(int argc, char *argv[])
         printf("Repository is created!\n");
 
         // initialize this dir as .git repository
-        if (system("git init > NUL"))
+        // init send its output to stderr not stdout
+        if (system("git init > NUL 2>&1"))
         {
             free(cmd);
             free(name);
@@ -115,7 +116,7 @@ int main(int argc, char *argv[])
     printf("Files are added!\n");
 
     // commit the changes
-    snprintf(cmd, MAX_CMD, "git commit -m \"%s\" > NUL", argv[2]);
+    snprintf(cmd, MAX_CMD, "git commit -m \"%s\"", argv[2]);
     if (system(cmd))
     {
         free(cmd);
@@ -124,8 +125,7 @@ int main(int argc, char *argv[])
     printf("Changes are commited!\n");
 
     // push the changes
-    // push -strangely- always send its output to stderr
-    if (system("git push origin main 2> NUL"))
+    if (system("git push origin main"))
     {
         free(cmd);
         die("Failed to push the changes!");
