@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     
     // if no flags passed, argv[3] is NULL. so, passing it to strcmp() causes a segfault.
     // We check if it isn't not NULL, and then compare it with '-n'.
-    if (argv[3] && strcmp(argv[3], "-n"))
+    if (argv[3] && !strcmp(argv[3], "-n"))
     {  
         char *name = malloc(MAX_CMD);
         if (!cmd)
