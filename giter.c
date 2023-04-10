@@ -6,34 +6,30 @@
 
 #define MAX_CMD 100
 
+void die(const char *msg)
+{
+    fprintf(stderr, "%s", msg);
+    exit(EXIT_FAILURE);
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 3 && argc != 4)
-    {
-        fprintf(stderr, "Usage: giter <input-files> <message> <option>\n");
-        fprintf(stderr, "Options:\n"
-                        "    -n: to create a new repository.\n"
-                        "    NOTHING: to push to an existant repository\n");
-        return -1;
-    }
-    
+        die("Usage: giter <input-files> <message> [-n]\n");
+
     char *cmd = malloc(MAX_CMD);
     if (!cmd)
-    {
-        printf("Cannot allocate memory for cmd string!\n");
-        return -1;
-    }
+        die("Cannot allocate memory for cmd string!\n");
     
-    // if no flags passed, argv[3] is NULL. so, passing it to strcmp() causes a segfault.
-    // We check if it isn't not NULL, and then compare it with '-n'.
-    if (argv[3] && !strcmp(argv[3], "-n"))
+    // if no flags passed (argc is 3), argv[3] is NULL. so, passing it to strcmp() causes a segfault.
+    // We check if it isn't not NULL (if argc is 4), and then compare it with '-n'.
+    if (argc == 4 && !strcmp(argv[3], "-n"))
     {  
         char *name = malloc(MAX_CMD);
         if (!name)
         {
-            printf("Cannot allocate memory for the name of the repo!\n");
             free(cmd);
-            return -1;
+            die("Cannot allocate memory for the name of the repo!\n");
         }
 
         printf("Enter the name of the repository: ");
@@ -44,30 +40,27 @@ int main(int argc, char *argv[])
         printf("Make the repository public? (1/0): ");
         if (scanf("%d", &public) != 1 || public < 0 || public > 1)
         {
-            printf("Invalid input!\n");
             free(cmd);
-            free(name);
-            return -1;
+            free(name);            
+            die("Invalid input!\n");
         }
 
         // create the repository
         snprintf(cmd, MAX_CMD, "gh repo create %s %s\n", name, public? "--public" : "--private");
         if (system(cmd))
         {
-            printf("Failed to create repository!\n");
             free(cmd);
             free(name);
-            return -1;
+            die("Failed to create repository!\n");
         }
         printf("Repository is created!\n");
 
         // initialize this dir as .git repository
         if (system("git init"))
         {
-            printf("Failed to initialize the directory!\n");
             free(cmd);
             free(name);
-            return -1;
+            die("Failed to initialize the directory!\n");
         }
         printf("Directory is initialized!\n");
 
@@ -75,10 +68,9 @@ int main(int argc, char *argv[])
         snprintf(cmd, MAX_CMD, "git remote add origin https://github.com/OussamaTeyib/%s.git", name); 
         if (system(cmd))
         {
-            printf("Failed to set remote URL!\n");
             free(cmd);
             free(name);
-            return -1;
+            die("Failed to set remote URL!\n");
         }
         printf("Remote URL is set!\n");
 
@@ -88,9 +80,8 @@ int main(int argc, char *argv[])
     // set default name of the branch
     if(system("git branch -m main"))
     {
-        printf("Failed to set default name!\n");
         free(cmd);
-        return -1;
+        die("Failed to set default name!\n");
     } 
     printf("Deafult name is set!\n");
    
@@ -98,9 +89,8 @@ int main(int argc, char *argv[])
     snprintf(cmd, MAX_CMD, "git add %s", argv[1]);
     if (system(cmd))
     {
-        printf("Failed to add the files to staging zone!\n");
         free(cmd);
-        return -1;
+        die("Failed to add the files to staging zone!\n");
     }
     printf("Files are added!\n");
 
@@ -108,21 +98,19 @@ int main(int argc, char *argv[])
     snprintf(cmd, MAX_CMD, "git commit -m \"%s\"", argv[2]);
     if (system(cmd))
     {
-        printf("Failed to commit the changes!\n");
         free(cmd);
-        return -1;
+        die("Failed to commit the changes!\n");
     }
     printf("Changes are commited!\n");
 
     // push the changes
     if (system("git push origin main"))
     {
-        printf("Failed to push the changes!\n");
         free(cmd);
-        return -1;
+        die("Failed to push the changes!\n");
     }
     printf("Changes are pushed!\n");
 
     free(cmd);
-    return 0;
+    return EXIT_SUCCESS;
 }
