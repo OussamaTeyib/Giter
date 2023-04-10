@@ -8,18 +8,18 @@
 
 void die(const char *msg)
 {
-    fprintf(stderr, "%s", msg);
+    fprintf(stderr, "giter: %s\n", msg);
     exit(EXIT_FAILURE);
 }
 
 int main(int argc, char *argv[])
 {
     if (argc != 3 && argc != 4)
-        die("Usage: giter <input-files> <message> [-n]\n");
+        die("Usage: giter <input-files> <message> [-n]");
 
     char *cmd = malloc(MAX_CMD);
     if (!cmd)
-        die("Cannot allocate memory for cmd string!\n");
+        die("Cannot allocate memory for cmd string!");
     
     // if no flags passed (argc is 3), argv[3] is NULL. so, passing it to strcmp() causes a segfault.
     // We check if it isn't not NULL (if argc is 4), and then compare it with '-n'.
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
         if (!name)
         {
             free(cmd);
-            die("Cannot allocate memory for the name of the repo!\n");
+            die("Cannot allocate memory for the name of the repo!");
         }
 
         printf("Enter the name of the repository: ");
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
         {
             free(cmd);
             free(name);
-            die("Invalid input!\n");
+            die("Invalid input!");
         }
 
         int public;
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         {
             free(cmd);
             free(name);            
-            die("Invalid input!\n");
+            die("Invalid input!");
         }
 
         // create the repository
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         {
             free(cmd);
             free(name);
-            die("Failed to create repository!\n");
+            die("Failed to create repository!");
         }
         printf("Repository is created!\n");
 
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
         {
             free(cmd);
             free(name);
-            die("Failed to initialize the directory!\n");
+            die("Failed to initialize the directory!");
         }
         printf("Directory is initialized!\n");
 
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         {
             free(cmd);
             free(name);
-            die("Failed to set remote URL!\n");
+            die("Failed to set remote URL!");
         }
         printf("Remote URL is set!\n");
 
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     if(system("git branch -m main"))
     {
         free(cmd);
-        die("Failed to set default name!\n");
+        die("Failed to set default name!");
     } 
     printf("Deafult name is set!\n");
    
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
     if (system(cmd))
     {
         free(cmd);
-        die("Failed to add the files to staging zone!\n");
+        die("Failed to add the files to staging zone!");
     }
     printf("Files are added!\n");
 
@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
     if (system(cmd))
     {
         free(cmd);
-        die("Failed to commit the changes!\n");
+        die("Failed to commit the changes!");
     }
     printf("Changes are commited!\n");
 
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
     if (system("git push origin main"))
     {
         free(cmd);
-        die("Failed to push the changes!\n");
+        die("Failed to push the changes!");
     }
     printf("Changes are pushed!\n");
 
