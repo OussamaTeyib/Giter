@@ -16,6 +16,12 @@ int main(int argc, char *argv[])
 {
     if (argc != 3 && argc != 4)
         die("Usage: giter <input-files> <message> [-n]");
+  
+    if (system("git --version > null"))
+        die("Git is not installed on this system.");
+
+    if (system("gh --version > null"))
+        die("Github CLI is not installed on this system.");
 
     char *cmd = malloc(MAX_CMD);
     if (!cmd)

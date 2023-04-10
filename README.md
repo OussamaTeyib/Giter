@@ -12,3 +12,5 @@ getenv(GITHUB_USER)?
 
 ask gpt abaut the name you choosed and the tool real name.
 tell it to implement it and learn from it.
+
+add git status > null to chaeck if it is a git repo
