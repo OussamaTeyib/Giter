@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         }
 
         // create the repository
-        snprintf(cmd, MAX_CMD, "gh repo create %s %s\n", name, public? "--public" : "--private");
+        snprintf(cmd, MAX_CMD, "gh repo create %s %s > NUL\n", name, public? "--public" : "--private");
         if (system(cmd))
         {
             free(cmd);
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
         printf("Repository is created!\n");
 
         // initialize this dir as .git repository
-        if (system("git init"))
+        if (system("git init > NUL"))
         {
             free(cmd);
             free(name);
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
         printf("Directory is initialized!\n");
 
         // set remote URL
-        snprintf(cmd, MAX_CMD, "git remote add origin https://github.com/OussamaTeyib/%s.git", name); 
+        snprintf(cmd, MAX_CMD, "git remote add origin https://github.com/OussamaTeyib/%s.git > NUL", name); 
         if (system(cmd))
         {
             free(cmd);
@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
     printf("Files are added!\n");
 
     // commit the changes
-    snprintf(cmd, MAX_CMD, "git commit -m \"%s\" > NULL", argv[2]);
+    snprintf(cmd, MAX_CMD, "git commit -m \"%s\" > NUL", argv[2]);
     if (system(cmd))
     {
         free(cmd);
@@ -127,7 +127,7 @@ int main(int argc, char *argv[])
     printf("Changes are commited!\n");
 
     // push the changes
-    if (system("git push origin main > NULL"))
+    if (system("git push origin main > NUL"))
     {
         free(cmd);
         die("Failed to push the changes!");
