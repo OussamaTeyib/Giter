@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     if (argc != 3 && argc != 4)
         die("Usage: giter <input-files> <message> [-n]");
   
-    if (system("git --version > NUL"))
+    if (system("git > NUL"))
         die("Git is not installed on this system.");
 
     if (system("gh > NUL"))
