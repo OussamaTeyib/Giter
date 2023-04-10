@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     if (argv[3] && !strcmp(argv[3], "-n"))
     {  
         char *name = malloc(MAX_CMD);
-        if (!cmd)
+        if (!name)
         {
             printf("Cannot allocate memory for the name of the repo!\n");
             free(cmd);
