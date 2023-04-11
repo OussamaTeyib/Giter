@@ -22,9 +22,6 @@ int main(int argc, char *argv[])
     if (system("git --version > NUL"))
         die("Git is not installed on this system!");
 
-    if (system("gh --version > NUL"))
-        die("Github CLI is not installed on this system!");
-
     char *cmd = malloc(MAX_CMD);
     if (!cmd)
         die("Cannot allocate memory for cmd string!");
@@ -33,6 +30,12 @@ int main(int argc, char *argv[])
     // We check if it isn't not NULL (if argc is 4), and then compare it with '-n'.
     if (argc == 4 && !strcmp(argv[3], "-n"))
     {  
+        if (system("gh --version > NUL"))
+        {
+            free(cmd);
+            die("Github CLI is not installed on this system!");
+        }
+
         char *name = malloc(MAX_CMD);
         if (!name)
         {
@@ -134,4 +137,4 @@ int main(int argc, char *argv[])
 
     free(cmd);
     return EXIT_SUCCESS;
-}
+                                      }
