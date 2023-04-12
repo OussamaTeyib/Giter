@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     if (!cmd)
         die("Cannot allocate memory for cmd string!");
     
-    // if no flags passed (argc is 3), argv[3] is NULL. so, passing it to strcmp() causes a segfault.
+    // if no flags are passed (argc is 3), argv[3] is NULL. so, passing it to strcmp() causes a segfault.
     // We check if it isn't not NULL (if argc is 4), and then compare it with '-n'.
     if (argc == 4 && !strcmp(argv[3], "-n"))
     {  
