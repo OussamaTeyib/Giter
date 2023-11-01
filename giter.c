@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
         }
 
         printf("Enter the name of the repository: ");
+        fflush(stdin);
         fgets(name, MAX_CMD, stdin);
         name[strlen(name) - 1] = '\0';
         if (!strlen(name))
@@ -78,16 +79,39 @@ int main(int argc, char *argv[])
             die("Failed to initialize the directory!");
         }
 
+        char *username = malloc(MAX_CMD);
+        if (!username)
+        {
+            free(cmd);
+            free(name);
+            die("Cannot allocate memory for your username!");
+        }
+
+        // get the username
+        printf("Enter your username: ");
+        fflush(stdin);
+        fgets(username, MAX_CMD, stdin);
+        username[strlen(username) - 1] = '\0';
+        if (!strlen(username))
+        {
+            free(cmd);
+            free(name);
+            free(username);
+            die("Invalid input!");
+        }
+
         // set remote URL
-        snprintf(cmd, MAX_CMD, "git remote add origin https://github.com/OussamaTeyib/%s.git > NUL", name); 
+        snprintf(cmd, MAX_CMD, "git remote add origin https://github.com/%s/%s.git > NUL", username, name); 
         if (system(cmd))
         {
             free(cmd);
             free(name);
+            free(username);
             die("Failed to set remote URL!");
         }
 
         free(name);
+        free(username);
     }
 
     // check if the dir is a git repo
